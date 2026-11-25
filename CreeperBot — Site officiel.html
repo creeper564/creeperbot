@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CreeperBot — Le bot Discord tout-en-un</title>
+<style>
+:root{--bg:#06120c;--bg2:#0b1d13;--card:#0f2a1b;--line:#1c4a30;--g:#2ee66b;--g2:#16a34a;--gd:#0d5c2e;--tx:#e6f5ec;--mu:#8fb9a0;--on:#04140a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f1faf4;--bg2:#e3f4e9;--card:#fff;--line:#b9dfc6;--g:#15803d;--g2:#16a34a;--gd:#14532d;--tx:#0b2415;--mu:#3f6b52;--on:#fff}}
+:root[data-theme="dark"]{--bg:#06120c}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.7 "Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+background-image:radial-gradient(900px 500px at 85% -5%,rgba(46,230,107,.16),transparent),radial-gradient(700px 400px at -10% 25%,rgba(13,92,46,.45),transparent)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.w{max-width:1050px;margin:auto;padding:0 20px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;backdrop-filter:blur(12px);background:color-mix(in srgb,var(--bg) 82%,transparent);border-bottom:1px solid var(--line)}
+header .w{display:flex;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px;gap:12px}
+.logo{font-weight:800;display:flex;gap:10px;align-items:center;color:var(--tx);text-decoration:none}
+.logo i{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--g),var(--gd));display:grid;place-items:center;font-style:normal;color:var(--on)}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{color:var(--mu);text-decoration:none;font-size:14px;padding:6px 12px;border-radius:99px;transition:.2s}
+nav a:hover{color:var(--g);background:rgba(46,230,107,.1)}
+.btn{display:inline-block;background:linear-gradient(135deg,var(--g),var(--g2));color:var(--on);font-weight:700;text-decoration:none;padding:12px 24px;border-radius:12px;box-shadow:0 8px 28px rgba(46,230,107,.25);transition:.2s}
+.btn:hover{transform:translateY(-2px)}.btn.o{background:none;color:var(--g);border:1px solid var(--g2);box-shadow:none}
+.hero{padding:90px 0 60px;text-align:center}
+.pill{font-size:12px;padding:4px 12px;border:1px solid var(--g2);color:var(--g);border-radius:99px}
+h1{font-size:clamp(38px,7vw,72px);line-height:1.05;margin:20px 0 14px;letter-spacing:-2px}
+h1 span{background:linear-gradient(90deg,var(--g),#a8ffc6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mu);font-size:19px;max-width:620px;margin:0 auto 28px}
+.hero .b{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:50px}
+.stats div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.stats b{display:block;font-size:26px;color:var(--g)}.stats small{color:var(--mu)}
+h2.t{font-size:clamp(26px,4vw,38px);margin:0 0 8px;letter-spacing:-1px}
+.sub{color:var(--mu);margin:0 0 28px}
+.sec{padding:60px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.c{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;transition:.25s}
+.c:hover{border-color:var(--g);transform:translateY(-3px);box-shadow:0 10px 30px rgba(46,230,107,.1)}
+.c i{font-style:normal;font-size:26px}.c h3{margin:8px 0 4px;font-size:17px}.c p{margin:0;color:var(--mu);font-size:14.5px}
+.legal{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ver{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}.ver span{font-size:13px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:4px 10px;color:var(--mu)}
+.ver b{color:var(--g)}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+summary{cursor:pointer;padding:15px 20px;font-weight:600;list-style:none;display:flex;gap:12px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary em{font-style:normal;font-size:12px;font-weight:700;background:var(--g);color:var(--on);padding:2px 8px;border-radius:7px}
+summary::after{content:"+";margin-left:auto;color:var(--g);font-size:22px}
+details[open] summary::after{content:"−"}details[open] summary{border-bottom:1px solid var(--line)}
+.d{padding:12px 20px 16px}.d p{margin:6px 0}.d ul{padding:0;margin:6px 0;list-style:none}
+.d li{position:relative;padding:3px 0 3px 22px}.d li::before{content:"";position:absolute;left:2px;top:13px;width:7px;height:7px;border-radius:2px;background:var(--g)}
+.d b{color:var(--g)}.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14.5px}td,th{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--g)}
+.note{border:1px solid #f5c542;background:rgba(245,197,66,.08);border-radius:12px;padding:10px 14px;margin:10px 0;font-size:14.5px}
+code{background:var(--bg2);padding:2px 6px;border-radius:6px;font-size:.9em;color:var(--g);word-break:break-all}
+.ct{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+footer{text-align:center;color:var(--mu);padding:36px 20px 50px;font-size:14px;border-top:1px solid var(--line)}
+footer a{color:var(--g);text-decoration:none}
+@media(max-width:700px){nav{display:none}.hero{padding-top:60px}}
+</style>
+</head>
+<body>
+<header><div class="w"><a class="logo" href="#top"><i>▣</i>CreeperBot</a>
+<nav><a href="#fonctions">Fonctionnalités</a><a href="#cgu">CGU</a><a href="#confidentialite">Confidentialité</a><a href="#contact">Contact</a></nav>
+<a class="btn" style="padding:8px 16px;font-size:14px" href="https://discord.com/oauth2/authorize?client_id=1446899373916295198&amp;scope=bot%20applications.commands">Ajouter</a></div></header>
+
+<div class="w hero" id="top">
+<span class="pill">Bot Discord multi-fonctions</span>
+<h1>Le bot qui fait <span>tout</span><br>pour ton serveur</h1>
+<p>Modération automatique, assistant IA, tickets, musique, progression et bien plus : CreeperBot gère ta communauté pendant que tu t’amuses.</p>
+<div class="b"><a class="btn" href="https://discord.com/oauth2/authorize?client_id=1446899373916295198&amp;scope=bot%20applications.commands">Ajouter à Discord</a><a class="btn o" href="#fonctions">Découvrir</a></div>
+<div class="stats"><div><b>12+</b><small>fonctionnalités</small></div><div><b>24/7</b><small>modération auto</small></div><div><b>IA</b><small>assistant Groq</small></div><div><b>0 €</b><small>données vendues</small></div></div>
+</div>
+
+<section class="sec" id="fonctions"><div class="w">
+<h2 class="t">Fonctionnalités</h2><p class="sub">Tout ce qu’il faut pour animer et protéger un serveur Discord.</p>
+<div class="grid">
+<div class="c"><i>🛡️</i><h3>Modération auto</h3><p>Spam, images interdites, mots suspects et détection des selfbots, avec alertes dans le salon système.</p></div>
+<div class="c"><i>🤖</i><h3>Assistant IA</h3><p>Réponses conversationnelles avec le préfixe « creeperbot », mémoire par salon.</p></div>
+<div class="c"><i>🔊</i><h3>Voix &amp; TTS</h3><p>Les réponses de l’IA peuvent être lues dans les salons vocaux.</p></div>
+<div class="c"><i>🎫</i><h3>Tickets</h3><p>Salons de support privés avec transcript à la fermeture.</p></div>
+<div class="c"><i>🍪</i><h3>Progression</h3><p>XP, cookies, badges, classements et dons entre membres.</p></div>
+<div class="c"><i>🚀</i><h3>Bump</h3><p>Mets ton serveur en avant dans un salon commun aux serveurs partenaires.</p></div>
+<div class="c"><i>🎵</i><h3>Musique</h3><p>Musique et webradios dans tes salons vocaux.</p></div>
+<div class="c"><i>📺</i><h3>YouTube</h3><p>Annonce automatique à chaque nouvelle vidéo de tes chaînes.</p></div>
+<div class="c"><i>🎭</i><h3>Rôles</h3><p>Création, rôles automatiques à l’arrivée et rôles par réaction.</p></div>
+<div class="c"><i>👋</i><h3>Bienvenue</h3><p>Messages d’accueil et d’au revoir, réactions automatiques.</p></div>
+<div class="c"><i>📜</i><h3>Règlement IA</h3><p>Génère un projet de règlement à partir d’un formulaire.</p></div>
+</div></div></section>
+
+<section class="sec legal" id="cgu"><div class="w">
+<h2 class="t">Conditions Générales d’Utilisation</h2>
+<div class="ver"><span>Version <b>3.0</b></span><span>En vigueur le <b>25 novembre 2026</b></span><span>Éditeur : <b>creeper56.</b></span><span>ID bot : <b>1446899373916295198</b></span></div>
+<p class="sub">En ajoutant CreeperBot à votre serveur ou en interagissant avec lui, vous acceptez sans réserve ces CGU. Sinon, retirez le Bot de votre serveur.</p>
+
+<details><summary><em>1</em>Définitions</summary><div class="d"><ul>
+<li><b>Éditeur :</b> creeper56. (ID Discord 1345792661797470320), développeur et opérateur du Bot.</li>
+<li><b>Administrateur :</b> utilisateur ayant les droits d’administration sur un serveur où le Bot est présent.</li>
+<li><b>Utilisateur :</b> toute personne interagissant avec le Bot ; <b>Serveur :</b> tout serveur Discord où il est présent.</li>
+<li><b>Salon système :</b> salon créé automatiquement par le Bot (« creeperbot-infos » par défaut) pour les alertes de modération et informations importantes ; recréé s’il est supprimé.</li></ul></div></details>
+
+<details><summary><em>2</em>Description du service</summary><div class="d"><p>Modération et sécurité automatique, salon système, gestion des rôles, assistant IA (Groq), lecture audio TTS (gTTS), tickets de support, progression (XP, cookies, badges), notifications YouTube, bump inter-serveurs, musique, bienvenue/au revoir, réactions automatiques et génération de règlement par IA. La disponibilité de chaque fonction dépend de la configuration de l’Administrateur.</p></div></details>
+
+<details><summary><em>3</em>Conditions d’accès</summary><div class="d"><ul>
+<li>Avoir un compte Discord valide et accepter les Conditions d’utilisation de Discord.</li>
+<li>Avoir au moins <b>13 ans</b> (ou l’âge minimum requis dans sa juridiction).</li>
+<li>Être présent sur un serveur où un Administrateur a ajouté le Bot.</li></ul>
+<div class="tw"><table><tr><th>Rôle</th><th>Accès</th></tr>
+<tr><td>Utilisateur</td><td>IA, TTS, commandes publiques selon la configuration.</td></tr>
+<tr><td>Administrateur</td><td>Configuration du serveur et alertes du salon système.</td></tr>
+<tr><td>Éditeur</td><td>Administration complète, code, déploiement, maintenance, support.</td></tr></table></div></div></details>
+
+<details><summary><em>4</em>Obligations et responsabilités</summary><div class="d"><ul>
+<li>Respecter les CGU et celles de Discord ; ne pas contourner ni exploiter la modération.</li>
+<li>Ne pas utiliser l’IA pour du contenu illégal, haineux, discriminatoire, pornographique ou nuisible à des tiers.</li>
+<li>Ne pas extraire, rétro-ingénier ou compromettre le code, les tokens ou les clés API.</li>
+<li>Ne pas abuser de la progression ou du bump par des moyens automatisés ou frauduleux.</li>
+<li><b>Administrateur :</b> déploiement conforme à la loi, information des membres, sécurisation de l’hébergement, ne pas supprimer le salon système, gérer les alertes de façon responsable.</li></ul>
+<div class="note"><b>Attention :</b> la création de rôles inclut par défaut les permissions administrateur. L’Administrateur est seul responsable de cet usage.</div></div></details>
+
+<details><summary><em>5</em>Modération automatique</summary><div class="d"><ul>
+<li><b>Détection :</b> mots-clés suspects, empreintes visuelles d’images interdites, fréquence des messages (spam), score de risque des comptes (selfbots).</li>
+<li><b>Actions :</b> suppression du message, timeout en cas de spam, quarantaine ou bannissement selon les seuils de l’Administrateur, alerte dans le salon système avec boutons d’action. Un mode d’essai (« dry-run ») est disponible.</li>
+<li><b>Faux positifs :</b> possibles ; l’Éditeur ne garantit pas l’exactitude des détections et l’Administrateur reste seul juge des suites.</li></ul></div></details>
+
+<details><summary><em>6</em>Assistant IA</summary><div class="d"><ul>
+<li>Modèles fournis par Groq (famille LLaMA et autres) ; les réponses peuvent contenir des erreurs et l’Éditeur n’en est pas responsable.</li>
+<li>Les messages sont transmis à l’API Groq (groq.com/privacy).</li>
+<li>Historique conservé par salon, de façon persistante, réinitialisable par un administrateur ou l’Éditeur.</li>
+<li>Ne partagez pas d’informations personnelles sensibles. Un système anti-abus peut restreindre l’accès en cas d’usage excessif.</li></ul></div></details>
+
+<details><summary><em>7</em>Tickets de support</summary><div class="d"><p>Un ticket crée un salon privé visible par l’Utilisateur et le personnel de support. Les échanges peuvent être consultés par ce personnel, et un transcript peut être généré et conservé à la fermeture pour le suivi et le contrôle qualité. Ne transmettez pas d’informations que vous ne souhaitez pas voir conservées.</p></div></details>
+
+<details><summary><em>8</em>Progression et bump</summary><div class="d"><p>La progression (XP, cookies, badges) est propre à chaque serveur, avec conversion en éléments globaux liés au compte. Le bump est disponible sur les serveurs l’ayant activé après validation de l’Éditeur, soumis à conditions spécifiques, et peut être suspendu en cas d’abus.</p></div></details>
+
+<details><summary><em>9</em>Disponibilité</summary><div class="d"><p>Le Bot est fourni « en l’état », sans garantie de disponibilité continue. L’Éditeur peut interrompre, modifier ou arrêter le service sans préavis, mettre à jour le Bot, et le suspendre sur un serveur en cas de violation des CGU. Aucune disponibilité de 100 % ni absence de bugs n’est garantie.</p></div></details>
+
+<details><summary><em>10</em>Limitation de responsabilité</summary><div class="d"><p>Dans la mesure permise par la loi, l’Éditeur n’est pas responsable des dommages liés à l’utilisation du Bot, des décisions de modération des Administrateurs, des faux positifs/négatifs, de l’indisponibilité de services tiers (Discord, Groq, Google…) ni des pertes de données dues à un redémarrage, une panne ou une maintenance.</p></div></details>
+
+<details><summary><em>11</em>Propriété intellectuelle</summary><div class="d"><p>CreeperBot et son code source sont la propriété exclusive de l’Éditeur ; toute reproduction, redistribution, modification ou exploitation commerciale sans autorisation écrite est interdite. L’Utilisateur conserve ses droits sur ses contenus. Le nom, l’identité visuelle et les fonctionnalités de CreeperBot sont protégés contre toute imitation.</p></div></details>
+
+<details><summary><em>12</em>Contenus interdits</summary><div class="d"><ul>
+<li>Contenu illégal (haine, violence, pédopornographie…), escroqueries, phishing, spam, sollicitation non autorisée.</li>
+<li>Violation de droits d’auteur ou de tiers, atteinte à la vie privée, atteinte à la sécurité de Discord ou du Bot.</li>
+<li>Usurpation de CreeperBot ou de son éditeur (creeper56.) et usage du nom ou du logo sans autorisation écrite.</li></ul>
+<div class="note">Tout manquement peut entraîner le bannissement du serveur concerné et un signalement à Discord Inc.</div></div></details>
+
+<details><summary><em>13</em>Signalement et contact</summary><div class="d"><p>Contactez l’Éditeur sur Discord : <code>creeper56.</code> (ID 1345792661797470320), objet recommandé « /discord » ou « /support ». Les signalements sont traités dans un délai raisonnable.</p></div></details>
+
+<details><summary><em>14</em>Modification et résiliation</summary><div class="d"><p>Les CGU peuvent être modifiées à tout moment et entrent en vigueur dès leur publication ; l’utilisation continue du Bot vaut acceptation. Une notification peut être publiée dans le salon système. L’Administrateur peut retirer le Bot à tout moment ; l’Éditeur peut le suspendre ou le retirer sans préavis en cas de violation avérée.</p></div></details>
+
+<details><summary><em>15</em>Droit applicable</summary><div class="d"><p>Les CGU sont régies par le droit français. À défaut de résolution amiable, les tribunaux compétents sont ceux du ressort du domicile de l’Éditeur.</p></div></details>
+</div></section>
+
+<section class="sec" id="confidentialite"><div class="w">
+<h2 class="t">Politique de Confidentialité</h2>
+<div class="ver"><span>Version <b>3.0</b></span><span>En vigueur le <b>25 novembre 2026</b></span><span>Responsable : <b>creeper56.</b></span></div>
+<p class="sub">CreeperBot ne vend pas vos données et ne les partage pas à des fins commerciales. Vos messages ne sont pas conservés durablement, sauf deux exceptions : l’historique de l’assistant IA (par salon, jusqu’à réinitialisation) et les transcripts de tickets fermés.</p>
+
+<details open><summary><em>1</em>Données traitées</summary><div class="d"><ul>
+<li><b>Identifiants :</b> ID utilisateur, serveur, salon et message, liés aux commandes, modérations et configurations.</li>
+<li><b>Contenu des messages :</b> analysé en temps réel (mots suspects, spam, images). Conservé durablement uniquement pour l’IA et les tickets.</li>
+<li><b>Anti-selfbot :</b> pseudo, date de création du compte, avatar/bannière personnalisés, statut de présence (si activé).</li>
+<li><b>Images :</b> téléchargées temporairement pour comparaison, non conservées.</li>
+<li><b>Bases locales (SQLite/JSON) :</b> configuration des fonctionnalités, rôles, historique IA par salon, journaux de modération, progression (XP, cookies, badges), tickets et transcripts, statistiques d’usage des commandes, logs de débogage.</li></ul>
+<div class="note"><b>Non collecté :</b> mots de passe, jetons d’authentification, données de paiement, numéros de téléphone, e-mails ou identifiants hors Discord.</div></div></details>
+
+<details><summary><em>2</em>Finalités</summary><div class="d"><ul>
+<li><b>Modération :</b> suppression de contenus suspects, détection du spam et des selfbots, alertes dans le salon système (et non plus par message privé).</li>
+<li><b>Assistant IA :</b> réponses contextuelles via Groq, avec mémoire persistante par salon, réinitialisable par un administrateur ou l’Opérateur ; anti-abus possible.</li>
+<li><b>TTS :</b> conversion de réponses en audio via gTTS, fichiers supprimés après lecture.</li>
+<li><b>Rôles et personnalisation :</b> rôles, bienvenue/au revoir, réactions automatiques, rôles par réaction.</li>
+<li><b>Tickets :</b> salon privé et transcript (messages, pseudonymes, avatars) conservé pour le suivi du support.</li>
+<li><b>Progression, YouTube, bump :</b> suivi XP/cookies/badges ; lecture de données publiques de chaînes via l’API YouTube (aucune donnée personnelle transmise) ; création d’invitation et annonce du serveur pour le bump.</li>
+<li><b>Maintenance :</b> logs et statistiques d’usage pour le débogage et le suivi technique.</li></ul></div></details>
+
+<details><summary><em>3</em>Services tiers</summary><div class="d"><div class="tw"><table><tr><th>Service</th><th>Usage</th></tr>
+<tr><td>Discord Inc.</td><td>Plateforme hôte : toutes les interactions transitent par l’API Discord (discord.com/privacy).</td></tr>
+<tr><td>Groq Inc.</td><td>Inférence IA : les messages adressés à l’assistant sont transmis à l’API Groq (groq.com/privacy).</td></tr>
+<tr><td>Google (gTTS)</td><td>Synthèse vocale via les serveurs de Google Translate.</td></tr>
+<tr><td>Google (YouTube Data API)</td><td>Notifications de nouvelles vidéos à partir de données publiques (policies.google.com/privacy).</td></tr></table></div>
+<p>Aucune donnée n’est vendue, louée ou cédée à des fins commerciales.</p></div></details>
+
+<details><summary><em>4</em>Durée de conservation</summary><div class="d"><div class="tw"><table><tr><th>Donnée</th><th>Durée</th></tr>
+<tr><td>Mémoire de l’IA</td><td>Par salon, jusqu’à réinitialisation manuelle.</td></tr>
+<tr><td>Fichiers audio (TTS)</td><td>Supprimés immédiatement après lecture.</td></tr>
+<tr><td>Images analysées</td><td>Non conservées (mémoire vive uniquement).</td></tr>
+<tr><td>Journaux de modération</td><td>Tant que le Bot est déployé sur le serveur.</td></tr>
+<tr><td>Transcripts de tickets</td><td>Jusqu’à suppression manuelle par l’Opérateur.</td></tr>
+<tr><td>Progression (XP, cookies)</td><td>Tant que le Bot est sur le serveur (par serveur) ou que le compte interagit avec le Bot (global).</td></tr>
+<tr><td>Logs techniques</td><td>Jusqu’à suppression manuelle par l’Opérateur.</td></tr>
+<tr><td>Bases de configuration</td><td>Tant que le Bot est déployé sur le serveur.</td></tr></table></div></div></details>
+
+<details><summary><em>5</em>Sécurité</summary><div class="d"><p>Le Bot est hébergé sur un serveur privé à accès restreint et les actions critiques sont journalisées pour l’audit de la modération. L’administrateur qui déploie CreeperBot est responsable de la sécurité de son propre environnement d’hébergement.</p></div></details>
+
+<details><summary><em>6</em>Vos droits</summary><div class="d"><ul>
+<li>Obtenir confirmation du traitement de vos données et en recevoir une copie.</li>
+<li>Demander la correction de données inexactes.</li>
+<li>Demander la suppression de vos données : historique IA, progression, transcript de ticket vous concernant.</li>
+<li>Vous opposer au traitement à des fins de modération automatique.</li></ul>
+<p>Pour exercer ces droits, contactez l’Opérateur sur Discord : <code>creeper56.</code></p></div></details>
+
+<details><summary><em>7</em>Mineurs et modifications</summary><div class="d"><p>CreeperBot n’est pas destiné aux moins de 13 ans, conformément aux conditions de Discord, et ne collecte pas sciemment de données de mineurs. La politique peut être modifiée à tout moment et entre en vigueur dès publication ; une notification peut être envoyée dans le salon système.</p></div></details>
+</div></section>
+
+<section class="sec legal" id="contact"><div class="w">
+<h2 class="t">Contact</h2><p class="sub">Une question, un signalement, une demande sur vos données ? Écris-moi sur Discord.</p>
+<div class="ct">
+<div class="c"><i>👤</i><h3>Créateur</h3><p>Pseudo Discord : <code>creeper56.</code><br>ID : <code>1345792661797470320</code></p></div>
+<div class="c"><i>🤖</i><h3>CreeperBot</h3><p>ID du bot : <code>1446899373916295198</code></p></div>
+<div class="c"><i>✉️</i><h3>Objet recommandé</h3><p>« /discord », « /support » ou « Confidentialité CreeperBot ».</p></div>
+</div></div></section>
+
+<footer>© 2026 CreeperBot · créé par <a href="#contact">creeper56.</a> · CGU et confidentialité v3.0 — 25 novembre 2026<br>Non affilié à Discord Inc.</footer>
+</body>
+</html>
